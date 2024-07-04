@@ -12,11 +12,15 @@
 
 
 
+#SQLAlchemy’s ORM (Object-Relational Mapping) allows you to map Python classes to database tables, 
+#making it easier to interact with the database in an object-oriented way.
+#You can also define relationships between tables, such as one-to-one, one-to-many, and many-to-many relationships.
+
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 
-DATABASE_URL = "postgresql+psycopg2://username:"""
+DATABASE_URL = " "
 
 # Create engine and base
 engine = create_engine(DATABASE_URL)

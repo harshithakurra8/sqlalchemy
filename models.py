@@ -1,23 +1,26 @@
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import relationship
 
-# Define the SQLite database URL
-DATABASE_URL = "sqlite:///example.db"
-
-# Create an engine
-engine = create_engine(DATABASE_URL)
-
-# Define the base class for declarative models
 Base = declarative_base()
 
-# Define a User model
-class User(Base):
-    __tablename__ = 'users'
+class Account(Base):
+    __tablename__ = 'accounts'
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, index=True)
-    email = Column(String, unique=True, index=True)
+    name = Column(String, unique=True, index=True)
+    deposits = relationship('Deposit', back_populates='account')
+    withdrawals = relationship('Withdrawal', back_populates='account')
 
-# Create the users table
-Base.metadata.create_all(bind=engine)
+class Deposit(Base):
+    __tablename__ = 'deposits'
+    id = Column(Integer, primary_key=True, index=True)
+    amount = Column(Float)
+    account_id = Column(Integer, ForeignKey('accounts.id'))
+    account = relationship('Account', back_populates='deposits')
 
+class Withdrawal(Base):
+    __tablename__ = 'withdrawals'
+    id = Column(Integer, primary_key=True, index=True)
+    amount = Column(Float)
+    account_id = Column(Integer, ForeignKey('accounts.id'))
+    account = relationship('Account', back_populates='withdrawals')
