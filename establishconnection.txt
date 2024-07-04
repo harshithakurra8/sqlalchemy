@@ -1,0 +1,47 @@
+Establishing Connectivity - the Engine:
+
+The start of any SQLAlchemy application is an object called the Engine. 
+
+This object acts as a central source of connections to a particular database,
+ providing both a factory as well as a holding space called a connection pool for these database connections. 
+
+
+This is an easy way to test things without needing to have an actual pre-existing database set up. 
+The Engine is created by using the create_engine() function:
+
+from sqlalchemy import create_engine
+engine = create_engine("sqlite+pysqlite:///:memory:", echo=True)
+
+The main argument to create_engine is a string URL, above passed as the string "sqlite+pysqlite:///:memory:". 
+This string indicates to the Engine three important facts:
+
+What kind of database are we communicating with? 
+
+This is the sqlite portion above, which links in SQLAlchemy to an object known as the dialect.
+
+What DBAPI are we using? 
+The Python DBAPI is a third party driver that SQLAlchemy uses to interact with a particular database. 
+In this case, we’re using the name pysqlite, which in modern Python use is the sqlite3 standard library interface for SQLite. 
+If omitted, SQLAlchemy will use a default DBAPI for the particular database selected.
+
+How do we locate the database? 
+In this case, our URL includes the phrase /:memory:, which is an indicator to the sqlite3 module that we will be using an in-memory-only database. 
+This kind of database is perfect for experimenting as it does not require any server nor does it need to create new files.
+
+
+Lazy Connecting:
+
+The Engine, when first returned by create_engine(), has not actually tried to connect to the database yet;
+ that happens only the first time it is asked to perform a task against the database. 
+ This is a software design pattern known as lazy initialization.
+
+
+
+Working with Transactions and the DBAPI:
+
+With the Engine object ready to go, we can dive into the basic operation of an Engine and its primary endpoints, the Connection and Result. 
+ We’ll also introduce the ORM’s facade for these objectsfrom sqlalchemy import text
+
+
+
+
