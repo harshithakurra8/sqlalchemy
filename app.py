@@ -1,11 +1,20 @@
 from sqlalchemy.orm import sessionmaker
 
-from models import user,engine
+from models import User,engine
 
-Session=sessionmaker(bind=engine)
-session=Session()
-user=User(name="Harry",age=30)
+# Create a SessionLocal class
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-session.add(user)
+# Create a new session
+db = SessionLocal()
 
-session.commit()
+# Create a new user instance
+new_user = User(name="John Doe", email="john@example.com")
+
+# Add the user to the session and commit the transaction
+db.add(new_user)
+db.commit()
+
+# Query the database for the user
+user = db.query(User).filter(User.email == "john@example.com").first()
+print(user.name)
